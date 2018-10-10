@@ -1,12 +1,23 @@
-var success = function(params) {
+
+function EthResponse() {}
+EthResponse.prototype.success = function(data, params) {
     var result = {ret: 0, message: 'success'};
-    params.forEach(element => {
-        
-    });
+    if (data) result.data = data;
+    if (params) {
+        params.forEach(function(item, i) {
+            result[item] = params[item];
+        });
+    }
     return result;
 };
 
-var fail = function(message) {
-    var result = {ret: 0, message: message};
+EthResponse.prototype.fail = function(message) {
+    if (!message || message == "") {
+        message = '您提交的请求处理失败';
+    } 
+    var result = {ret: 1, message: message};
     return result;
 };
+
+var res = new EthResponse();
+module.exports = res;
